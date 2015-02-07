@@ -33,6 +33,7 @@ module.exports = {
     "duration": {
         "paramName": "duration",
         "type": "option",
+        "defaultValue": "7-14",
         "config": {
             "options": [
                 "1-3",
@@ -56,7 +57,7 @@ module.exports = {
     "returnDate": {
         "paramName": "returnDate",
         "type": "date",
-        "deps": ["departureDate"],
+        "deps": ["departureDate", "duration"],
         "beforeValidate": function (value) {
             return value.getTime() < this.getConfig().min.getTime() ? this.getConfig().min : value;
         },
@@ -64,8 +65,9 @@ module.exports = {
 
         },
         "config": {
-            "min": function (departureDate) {
-                return moment(departureDate.getValue()).add(1, 'week').toDate();
+            "min": function (departureDate, duration) {
+                var minDays = duration.getValue().split('-')[0];
+                return moment(departureDate.getValue()).add(minDays, 'days').toDate();
             }
         }
     },
