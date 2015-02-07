@@ -5,6 +5,7 @@ var moment = require('moment');
 
 var Type = function (config, defaultValue, isArray, deps, beforeValidate, validator) {
   this.defaultValue = defaultValue;
+  this.value = this.defaultValue;
   this.deps = deps || {};
   this.config = config || {};
   this.isArray = !!isArray;
@@ -194,8 +195,8 @@ var FieldManager = function (params) {
       props.flushTransaction = this.flushTransaction.bind(this);
       props.cancelTransaction = this.cancelTransaction.bind(this);
       props.isInTransaction = this.isInTransaction.bind(this);
-      control.setProps(props);
       this.controls.push(control);
+      control.setProps(props);
       return null;
     }
     if (_.isUndefined(this.getParam(param))) {

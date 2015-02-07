@@ -15,6 +15,7 @@ var DatePicker = React.createClass({
             }
             this.props.change(date);
         }.bind(this));
+        this._updateDatePicker();
     },
 
     componentWillUnmount: function () {
@@ -23,11 +24,14 @@ var DatePicker = React.createClass({
     },
 
     componentDidUpdate: function() {
+        this._updateDatePicker();
+    },
+
+    _updateDatePicker: function() {
         var datePicker = $('#' + this.props.param).datepicker({
                 startDate: this.props.min
             }
         );
-        console.log(this.props.value);
         var date = new Date(this.props.value.getTime() + this.props.value.getTimezoneOffset() * 60 * 1000);
         datePicker.datepicker('setDate', date);
     },

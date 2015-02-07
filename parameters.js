@@ -39,7 +39,6 @@ var Parameters = function () {
             this.dontPushState = false;
             return null;
         }
-        console.debug('Will push');
         window.history.pushState(null, null, '?' + this._propValuesToQuery(this.props.fields));
     };
 
