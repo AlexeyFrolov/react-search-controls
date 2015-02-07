@@ -3,20 +3,20 @@ var React = require('react');
 var config = require('./config');
 var FieldManager = require('./fieldManager');
 var Parameters = require('./parameters');
+var Flyout = require('./flyout.jsx');
+var TravelPeriodFlyout = require('./travelPeriodFlyout.jsx');
 
 var parameters = new Parameters();
 
 var fm = new FieldManager(config);
 
-var duration = React.render(React.createElement(require('./dropdown.jsx'), {param: "duration"}), document.getElementById('duration'));
-var departureWidget = React.render(React.createElement(require('./datePicker.jsx'), {param: "departureDate"}), document.getElementById('departureWidget'));
-var returnWidget = React.render(React.createElement(require('./datePicker.jsx'), {param: "returnDate"}), document.getElementById('returnWidget'));
+
+var travelPeriodFlyout = React.render(React.createElement(TravelPeriodFlyout, {
+    fieldManager: fm
+}), document.getElementById('travelPeriod'));
 
 var destinations = React.render(React.createElement(require('./destinations.jsx'), {param: "destinations"}), document.getElementById('destinations'));
 
-fm.bindControl(duration, "duration");
-fm.bindControl(departureWidget, "departureDate");
-fm.bindControl(returnWidget, "returnDate");
-
+fm.bindControl(travelPeriodFlyout);
 fm.bindControl(destinations, "destinations");
 fm.bindControl(parameters);

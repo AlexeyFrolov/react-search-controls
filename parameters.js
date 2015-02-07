@@ -10,7 +10,6 @@ var Parameters = function () {
     }.bind(this);
 
     this.change = function (fieldValues) {
-        console.log(fieldValues);
         _.forOwn(fieldValues, function (value, name) { // TODO: optimize
             this.dontPushState = true;
             this.props.change(name, value);
@@ -29,14 +28,10 @@ var Parameters = function () {
             this.change(this._queryToValues(newProps.fields, window.location.search));
             return null;
         }
-        if (_.isEqual(this.props, newProps, function (val, other) {
-                if (val instanceof Date && other instanceof Date) {
-                    return val.getUTCFullYear() === other.getUTCFullYear()
-                        && val.getUTCMonth() === other.getUTCMonth()
-                        && val.getUTCDay() === other.getUTCDay();
-                }
-                return undefined;
-            })) {
+        if (this.props.isInTransaction()) {
+            return null;
+        }
+        if (this._propValuesToQuery(newProps.fields) === this._propValuesToQuery(this.props.fields)) {
             return null;
         }
         this.props = newProps;
@@ -80,7 +75,6 @@ var Parameters = function () {
      */
     this._queryToValues = function (props, query) {
         query = qs.parse(query.slice(1));
-        console.log(arguments);
         return _.mapValues(props, function(fieldProp, paramName) {
             if (!_.isUndefined(query[paramName])) {
                 // TODO: add support for dates etc.

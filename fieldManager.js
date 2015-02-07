@@ -188,16 +188,20 @@ var FieldManager = function (params) {
   this.bindControl = function (control, param) {
     var props = {};
     if (!param) {
-      props.fields = this.getProps();
+      props.fields = this.getAllProps();
       props.change = this.change.bind(this);
+      props.startTransaction = this.startTransaction.bind(this);
+      props.flushTransaction = this.flushTransaction.bind(this);
+      props.cancelTransaction = this.cancelTransaction.bind(this);
+      props.isInTransaction = this.isInTransaction.bind(this);
       control.setProps(props);
       this.controls.push(control);
       return null;
     }
-    if (_.isUndefined(this.params[param])) {
+    if (_.isUndefined(this.getParam(param))) {
       throw new Error('There is no parameter ' + param + ' you want to bind control to');
     }
-    props = _.assign({'change': this.changeParam(param).bind(this)}, this.params[param].getProps());
+    props = this.getProps(param);
     control.setProps(props); // Uses react setProp.
     this.controls.push(control);
 
@@ -214,28 +218,64 @@ var FieldManager = function (params) {
       value = value(this.getParam(param).getValue());
     }
     this.getParam(param).setValue(value);
-    _.each(this.params, function(field) { // @TODO: field for optimization
+    _.each(this.getParams(), function(field) { // @TODO: here we have a field for optimization
       if (field.getDeps().indexOf(param) > -1) {
         field.setValue(field.getValue());
       }
     }, this);
+    this.updateControls();
+  };
+
+  this.updateControls = function () {
     _.each(this.controls, function (control) {
       if (control.isMultiControl()) {
-        control.setProps({fields: this.getProps()});
+        control.setProps({fields: this.getAllProps()});
       } else {
         control.setProps(this.getParam(control.props.param).getProps()); // Uses react setProp.
       }
     }, this);
   };
 
-  this.getProps = function () {
-    return _.mapValues(this.params, function (p) {
-      return p.getProps();
-    });
+  this.isInTransaction = function () {
+    return this.inTransaction;
+  };
+
+  this.startTransaction = function () {
+    this.inTransaction = true;
+    this.transactParams = _.clone(this.params);
+  };
+
+  this.flushTransaction = function () {
+    this.inTransaction = false;
+    this.params = this.transactParams;
+    this.updateControls();
+  };
+
+  this.cancelTransaction = function () {
+    this.inTransaction = false;
+    this.transactParams = {};
+    this.updateControls();
+  };
+
+  this.getProps = function (param) {
+    return _.assign({'change': this.changeParam(param).bind(this)}, this.getParam(param).getProps());
+  };
+
+  this.getAllProps = function () {
+    return _.mapValues(this.getParams(), function (p, name) {
+      return this.getProps(name);
+    }, this);
   };
 
   this.getParam = function (paramName) {
-    return this.params[paramName];
+    return this.getParams()[paramName];
+  };
+
+  this.getParams = function () {
+    if (this.inTransaction) {
+      return this.transactParams;
+    }
+    return this.params;
   };
 
 
@@ -243,7 +283,9 @@ var FieldManager = function (params) {
 
   this.normalizeParams(params);
   this.params = this.getTypes(params);
+  this.transactParams = {};
   this.controls = [];
+  this.inTransaction = false;
 };
 
 function getArguments(func) {
