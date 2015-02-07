@@ -243,12 +243,13 @@ var FieldManager = function (params) {
 
   this.startTransaction = function () {
     this.inTransaction = true;
-    this.transactParams = _.clone(this.params);
+    this.transactParams = this.cloneParams(this.params);
+    this.updateControls();
   };
 
   this.flushTransaction = function () {
     this.inTransaction = false;
-    this.params = this.transactParams;
+    this.params = this.cloneParams(this.transactParams);
     this.updateControls();
   };
 
@@ -256,6 +257,17 @@ var FieldManager = function (params) {
     this.inTransaction = false;
     this.transactParams = {};
     this.updateControls();
+  };
+
+  this.cloneParams = function (params) {
+    params = _.clone(params);
+    _.forOwn(params, function (field, name) {
+      var type = field.constructor;
+      var newType  = new type(field.config, field.defaultValue, field.isArray, field.deps, field.beforeValidate, field.validator);
+      newType.value = _.cloneDeep(field.value);
+      params[name] = newType;
+      }, this);
+    return params;
   };
 
   this.getProps = function (param) {

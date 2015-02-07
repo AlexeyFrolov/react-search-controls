@@ -4,6 +4,7 @@ var Button = require('react-bootstrap').Button;
 var OverlayMixin = require('react-bootstrap').OverlayMixin;
 var DatePicker = require('./datePicker.jsx');
 var Dropdown = require('./dropdown.jsx');
+var moment = require('moment');
 
 var TravelPeriodFlyout = React.createClass({
     mixins: [OverlayMixin],
@@ -39,8 +40,15 @@ var TravelPeriodFlyout = React.createClass({
     },
 
     render: function () {
+        if (!this.props.fields) {
+            return <div />;
+        }
+        var duration =  this.props.fields.duration;
+        var departureDate =  this.props.fields.departureDate;
+        var returnDate =  this.props.fields.returnDate;
+        var title = moment(departureDate.value).format('YYYY-MM-DD') + ' to ' + moment(returnDate.value).format('YYYY-MM-DD');
         return (
-            <Button onClick={this._open} bsStyle="primary">Launch</Button>
+            <Button onClick={this._open} bsStyle="primary">{title}</Button>
         );
     },
 

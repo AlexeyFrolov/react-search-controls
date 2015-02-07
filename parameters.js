@@ -13,6 +13,7 @@ var Parameters = function () {
         _.forOwn(fieldValues, function (value, name) { // TODO: optimize
             this.dontPushState = true;
             this.props.change(name, value);
+            this.dontPushState = false;
         }, this);
     };
 
