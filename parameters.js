@@ -3,16 +3,16 @@ var _ = require('lodash');
 
 var Parameters = function () {
     this.initialized = false; // need send query values after bind
-    this.dontPushState = false; // tempory fix
+    this.dontPushState = false; // temporary fix
     this.props = {};
     window.onpopstate = function (e) {
-        this.dontPushState = true;
-            this.change(this._queryToValues(this.props.fields, window.location.search));
+        this.change(this._queryToValues(this.props.fields, window.location.search));
     }.bind(this);
 
     this.change = function (fieldValues) {
         console.log(fieldValues);
         _.forOwn(fieldValues, function (value, name) { // TODO: optimize
+            this.dontPushState = true;
             this.props.change(name, value);
         }, this);
     };
@@ -31,10 +31,6 @@ var Parameters = function () {
         }
         if (_.isEqual(this.props, newProps, function (val, other) {
                 if (val instanceof Date && other instanceof Date) {
-                    console.log(arguments);
-                    console.log(val.getUTCFullYear() === other.getUTCFullYear()
-                    && val.getUTCMonth() === other.getUTCMonth()
-                    && val.getUTCDay() === other.getUTCDay());
                     return val.getUTCFullYear() === other.getUTCFullYear()
                         && val.getUTCMonth() === other.getUTCMonth()
                         && val.getUTCDay() === other.getUTCDay();
@@ -48,6 +44,7 @@ var Parameters = function () {
             this.dontPushState = false;
             return null;
         }
+        console.debug('Will push');
         window.history.pushState(null, null, '?' + this._propValuesToQuery(this.props.fields));
     };
 

@@ -111,7 +111,7 @@ DateType.prototype.toString = function (value) {
 };
 
 DateType.prototype.fromString = function (string) {
-  var t = moment(string).toDate();
+  var t = moment.utc(string).toDate();
   return t;
 };
 

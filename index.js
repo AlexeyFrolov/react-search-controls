@@ -14,7 +14,7 @@ var returnWidget = React.render(React.createElement(require('./datePicker.jsx'),
 var destinations = React.render(React.createElement(require('./destinations.jsx'), {param: "destinations"}), document.getElementById('destinations'));
 
 fm.bindControl(departureWidget, "departureDate");
-//fm.bindControl(returnWidget, "returnDate");
+fm.bindControl(returnWidget, "returnDate");
 
 fm.bindControl(destinations, "destinations");
 fm.bindControl(parameters);

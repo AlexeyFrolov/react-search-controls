@@ -30,6 +30,20 @@ module.exports = {
     //        "min": "now - 14Y"
     //    }
     //},
+    "duration": {
+        "paramName": "duration",
+        "type": "option",
+        "config": {
+            "options": [
+                "1-3",
+                "4-5",
+                "6-8",
+                "7-14",
+                "9-12",
+                "13-15"
+            ]
+        }
+    },
     "departureDate": {
         "paramName": "departureDate",
         "type": "date",
@@ -39,31 +53,31 @@ module.exports = {
             }
         }
     },
-    //"returnDate": {
-    //    "paramName": "returnDate",
-    //    "type": "date",
-    //    "deps": ["departureDate"],
-    //    "beforeValidate": function (value) {
-    //        return value.getTime() < this.getConfig().min.getTime() ? this.getConfig().min : value;
-    //    },
-    //    "validate": function (departureDate) {
-    //
-    //    },
-    //    "config": {
-    //        "min": function (departureDate) {
-    //            return moment(departureDate.getValue()).add(1, 'week').toDate();
-    //        }
-    //    }
-    //},
+    "returnDate": {
+        "paramName": "returnDate",
+        "type": "date",
+        "deps": ["departureDate"],
+        "beforeValidate": function (value) {
+            return value.getTime() < this.getConfig().min.getTime() ? this.getConfig().min : value;
+        },
+        "validate": function (departureDate) {
+
+        },
+        "config": {
+            "min": function (departureDate) {
+                return moment(departureDate.getValue()).add(1, 'week').toDate();
+            }
+        }
+    },
     "destinations": {
         "paramName": "destinations",
-        "defaultValue": [],
+        "defaultValue": ['LNZ'],
         "type": "option",
         "isArray": true,
         "beforeValidate": function (value) {
             return value;
         },
-        "config": {
+        "config": { //TODO: !important bug with default value
             "options": [
                 "AT", [
                     "AT-ALL", [
