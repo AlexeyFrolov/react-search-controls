@@ -17,10 +17,12 @@ var travelPeriodFlyout = React.render(React.createElement(TravelPeriodFlyout), d
 var travellersFlyout = React.render(React.createElement(TravellersFlyout), document.getElementById('travellersFlyout'));
 
 var destinations = React.render(React.createElement(require('./controls/destinations.jsx'), {param: "destinations"}), document.getElementById('destinations'));
+var rating = React.render(React.createElement(require('./controls/stars.jsx'), {param: "rating"}), document.getElementById('rating'));
 var changedParams = React.render(React.createElement(require('./controls/changedParams.jsx')), document.getElementById('changedParams'));
 
 fm.bindControl(changedParams);
 fm.bindControl(travelPeriodFlyout);
 fm.bindControl(travellersFlyout);
 fm.bindControl(destinations, "destinations");
+fm.bindControl(rating, "rating");
 fm.bindControl(parameters);

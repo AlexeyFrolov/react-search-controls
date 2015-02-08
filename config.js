@@ -2,17 +2,17 @@ var moment = require('moment');
 var _ = require('lodash');
 
 module.exports = {
-    //"rating": {
-    //    "paramName": "rating",
-    //    "type": "range",
-    //    "defaultValue": "3",
-    //    "config": {
-    //        "min": 1,
-    //        "max": 5,
-    //        "step:": 1
-    //    }
-    //
-    //},
+    "rating": {
+        "paramName": "rating",
+        "type": "range",
+        "defaultValue": "3",
+        "config": {
+            "min": 1,
+            "max": 5,
+            "step:": 1
+        }
+
+    },
     "adultsCount": {
         "paramName": "adultsCount",
         "type": "range",
