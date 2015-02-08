@@ -10,6 +10,7 @@ var Type = function (config, name, defaultValue, isArray, deps, beforeValidate, 
     this.isArray = !!isArray;
     this.beforeValidate = beforeValidate;
     this.validator = validator;
+    this.errors = [];
 };
 
 Type.prototype.getConfig = function () {
@@ -49,6 +50,7 @@ Type.prototype.getProps = function() {
         name: this.name,
         type: this.type,
         isArray: this.isArray,
+        errors: this.errors,
         fromString: this.fromString.bind(this),
         toString: this.toString.bind(this)
     };
@@ -58,11 +60,27 @@ Type.prototype.setValue = function(value) {
     this.value = value;
     if (this.beforeValidate) {
         if (!_.isArray(this.beforeValidate)) {
-            this.beforeValidate = [this.beforeValidate];
+            beforeValidate = [this.beforeValidate];
         }
-        value = _.reduce(this.beforeValidate, function (value, func) {
+        value = _.reduce(beforeValidate, function (value, func) {
             if (!_.isFunction(func)) {
-                throw new Error("beforeValidation handler should be function or array od functions");
+                throw new Error("beforeValidation handler should be function or array of functions in " + this.name);
+            } else {
+                return this._invokeWithDeps(func, value);
+            }
+        }, value, this);
+    }
+    /**
+     * @TODO: deduplicate
+     */
+    this.errors = [];
+    if (this.validator) {
+        if (!_.isArray(this.validator)) {
+            validator = [this.validator];
+        }
+        _.reduce(validator, function (value, func) {
+            if (!_.isFunction(func)) {
+                throw new Error("validate handler should be function or array of functions in " + this.name);
             } else {
                 return this._invokeWithDeps(func, value);
             }
@@ -82,6 +100,10 @@ Type.prototype._invokeWithDeps = function(func) {
         }
     }, this);
     return func.apply(this, additionalArgs.concat(args));
+};
+
+Type.prototype.addError = function(error) {
+    this.errors.push(error);
 };
 
 Type.prototype.getDeps = function() {
@@ -116,7 +138,6 @@ DateType.prototype.fromString = function (string) {
     var t = moment.utc(string).toDate();
     return t;
 };
-
 
 
 var RangeType = function (config) {

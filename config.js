@@ -67,9 +67,12 @@ module.exports = {
     "departureDate": {
         "paramName": "departureDate",
         "type": "date",
+        "validate": minDateValidator,
         "config": {
             "min": function () {
-                return new Date();
+                var date = new Date();
+                date.setUTCHours(0,0,0,0);
+                return date;
             }
         }
     },
@@ -77,12 +80,10 @@ module.exports = {
         "paramName": "returnDate",
         "type": "date",
         "deps": ["departureDate", "duration"],
-        "beforeValidate": function (value) {
-            return value.getTime() < this.getConfig().min.getTime() ? this.getConfig().min : value;
-        },
-        "validate": function (departureDate) {
-
-        },
+        //"beforeValidate": function (value) {
+        //    return value.getTime() < this.getConfig().min.getTime() ? this.getConfig().min : value;
+        //},
+        "validate": minDateValidator,
         "config": {
             "min": function (departureDate, duration) {
                 var minDays = duration.getValue().split('-')[0];
@@ -114,3 +115,12 @@ module.exports = {
         }
     }
 };
+
+function minDateValidator(value) {
+    var min = this.getConfig().min;
+    if (value.getTime() < min.getTime()) {
+        this.addError(this.name + ' should be greater than ' + moment(min).format('YYYY-MM-DD'));
+        return false
+    }
+    return true;
+}

@@ -39,12 +39,21 @@ var TravelPeriodFlyout = React.createClass({
             return <span/>;
         }
 
+        var duration =  this.props.fields.duration;
+        var departureDate =  this.props.fields.departureDate;
+        var returnDate =  this.props.fields.returnDate;
+
+        var errors = departureDate.errors.concat(returnDate.errors).map(function(error, key) {
+            return <div key={key}>{error}</div>gst
+        });
+
         return (
             <Modal title="Modal heading" onRequestHide={this._cancel}>
                 <div className="modal-body">
-                <Dropdown param="duration" {...this.props.fields.duration} />
-                <DatePicker param="departureDate" {...this.props.fields.departureDate} />
-                <DatePicker param="returnDate" {...this.props.fields.returnDate} />
+                <Dropdown param="duration" {...duration} />
+                <DatePicker param="departureDate" {...departureDate} />
+                <DatePicker param="returnDate" {...returnDate} />
+                    {errors}
                 </div>
                 <div className="modal-footer">
                     <Button onClick={this._cancel}>Close</Button>

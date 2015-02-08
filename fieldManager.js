@@ -119,6 +119,7 @@ var FieldManager = function (params) {
     var newParams = this.getTypes(params);
     _.forOwn(curParams, function (field, name) {
       newParams[name].value = _.cloneDeep(field.value);
+      newParams[name].errors = _.cloneDeep(field.errors);
       }, this);
     return newParams;
   };
