@@ -13,8 +13,8 @@ module.exports = {
     //    }
     //
     //},
-    //"adults": {
-    //    "paramName": "adults",
+    //"adultsCount": {
+    //    "paramName": "adultsCount",
     //    "type": "range",
     //    "config":
     //    {
@@ -22,7 +22,16 @@ module.exports = {
     //        "max": 9
     //    }
     //},
-    //"children": {
+    //"childrenCount": {
+    //    "paramName": "adultsCount",
+    //    "type": "range",
+    //    "config":
+    //    {
+    //        "min": 1,
+    //        "max": 9
+    //    }
+    //},
+    //"childrenDates": {
     //    "paramName": "children",
     //    "type": "date",
     //    "isArray": true,

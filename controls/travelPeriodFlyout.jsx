@@ -4,10 +4,11 @@ var Button = require('react-bootstrap').Button;
 var OverlayMixin = require('react-bootstrap').OverlayMixin;
 var DatePicker = require('./datePicker.jsx');
 var Dropdown = require('./dropdown.jsx');
+var FlyoutMixin = require('./mixins/flyoutMixin');
 var moment = require('moment');
 
 var TravelPeriodFlyout = React.createClass({
-    mixins: [OverlayMixin],
+    mixins: [OverlayMixin, FlyoutMixin],
 
     isMultiControl: function () {
         return true;
@@ -16,27 +17,6 @@ var TravelPeriodFlyout = React.createClass({
         return {
             isModalOpen: false
         };
-    },
-
-    _open: function () {
-        this.setState({
-            isModalOpen: true
-        });
-        this.props.startTransaction();
-    },
-
-    _cancel: function () {
-        this.setState({
-            isModalOpen: false
-        });
-        this.props.cancelTransaction();
-    },
-
-    _ok: function () {
-        this.setState({
-            isModalOpen: false
-        });
-        this.props.flushTransaction();
     },
 
     render: function () {
@@ -58,8 +38,6 @@ var TravelPeriodFlyout = React.createClass({
         if (!this.state.isModalOpen) {
             return <span/>;
         }
-
-
 
         return (
             <Modal title="Modal heading" onRequestHide={this._cancel}>
