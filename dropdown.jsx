@@ -26,7 +26,7 @@ var Dropdown = React.createClass({
                         title={this.props.value}
                         onSelect={this._handleChange}>
                     {options.map(function(option) {
-                        return <MenuItem eventKey={option}>{option}</MenuItem>
+                        return <MenuItem key={option} eventKey={option}>{option}</MenuItem>
                     })}
                     </DropdownButton>
                 </ButtonToolbar>

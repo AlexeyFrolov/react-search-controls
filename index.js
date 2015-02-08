@@ -16,7 +16,9 @@ var travelPeriodFlyout = React.render(React.createElement(TravelPeriodFlyout, {
 }), document.getElementById('travelPeriod'));
 
 var destinations = React.render(React.createElement(require('./destinations.jsx'), {param: "destinations"}), document.getElementById('destinations'));
+var changedParams = React.render(React.createElement(require('./changedParams.jsx')), document.getElementById('changedParams'));
 
+fm.bindControl(changedParams);
 fm.bindControl(travelPeriodFlyout);
 fm.bindControl(destinations, "destinations");
 fm.bindControl(parameters);

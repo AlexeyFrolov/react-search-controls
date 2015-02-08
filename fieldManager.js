@@ -3,11 +3,12 @@ var util = require('util');
 var moment = require('moment');
 
 
-var Type = function (config, defaultValue, isArray, deps, beforeValidate, validator) {
+var Type = function (config, name, defaultValue, isArray, deps, beforeValidate, validator) {
   this.defaultValue = defaultValue;
   this.value = this.defaultValue;
   this.deps = deps || {};
   this.config = config || {};
+  this.name = name;
   this.isArray = !!isArray;
   this.beforeValidate = beforeValidate;
   this.validator = validator;
@@ -46,6 +47,8 @@ Type.prototype.getProps = function() {
   return {
     config: this.getConfig(),
     value: this.getValue(),
+    defaultValue: this.defaultValue,
+    name: this.name,
     type: this.type,
     isArray: this.isArray,
     fromString: this.fromString.bind(this),
@@ -176,7 +179,7 @@ var FieldManager = function (params) {
         if (deps) {
 
         }
-        result[paramName] = new type(param.config, param.defaultValue, param.isArray, deps, param.beforeValidate, param.validate);
+        result[paramName] = new type(param.config, param.paramName, param.defaultValue, param.isArray, deps, param.beforeValidate, param.validate);
         return result[paramName];
       }
     };
@@ -217,6 +220,9 @@ var FieldManager = function (params) {
   this.change = function (param, value) {
     if (_.isFunction(value)) {
       value = value(this.getParam(param).getValue());
+    }
+    else if (value === null) {
+      value = this.getParam(param).defaultValue;
     }
     this.getParam(param).setValue(value);
     _.each(this.getParams(), function(field) { // @TODO: here we have a field for optimization
@@ -259,15 +265,12 @@ var FieldManager = function (params) {
     this.updateControls();
   };
 
-  this.cloneParams = function (params) {
-    params = _.clone(params);
-    _.forOwn(params, function (field, name) {
-      var type = field.constructor;
-      var newType  = new type(field.config, field.defaultValue, field.isArray, field.deps, field.beforeValidate, field.validator);
-      newType.value = _.cloneDeep(field.value);
-      params[name] = newType;
+  this.cloneParams = function (curParams) {
+    var newParams = this.getTypes(params);
+    _.forOwn(curParams, function (field, name) {
+      newParams[name].value = field.value;
       }, this);
-    return params;
+    return newParams;
   };
 
   this.getProps = function (param) {
