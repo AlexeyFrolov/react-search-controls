@@ -29,9 +29,9 @@ Type.prototype.getValue = function() {
     var val = null;
     if (this.value) {
         val = this.value;
-    } else if (this.defaultValue) {
+    } else if (!_.isUndefined(this.defaultValue) && this.defaultValue !== null) {
         val = this.defaultValue;
-    } else if (this.getConfig().min) {
+    } else if (!_.isUndefined(this.getConfig().min) && this.getConfig().min !== null) {
         val = this.getConfig().min;
     } else if (this.isArray) {
         return [];

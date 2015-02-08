@@ -41,7 +41,6 @@ var TravelPeriodFlyout = React.createClass({
         }
         var adultsCount =  this.props.fields.adultsCount.value;
         var childrenCount =  this.props.fields.childrenCount.value;
-        var childrenDates =  this.props.fields.childrenDates;
         var title = adultsCount + " adults, " + childrenCount + " children";
         return (
             <Button onClick={this._open} bsStyle="primary">{title}</Button>
@@ -64,19 +63,12 @@ var TravelPeriodFlyout = React.createClass({
                             change={this._changeChildrenCount.bind(this)}
                             />
                 {_.range(0, this.props.fields.childrenCount.value).map(function (key) {
-                    if (this.props.fields.childrenDates.value[key]) {
-                        return (<DatePicker
-                            {...this.props.fields.childrenDates}
-                            key={key}
-                            name={this.props.fields.childrenDates.name + key}
-                            value={this.props.fields.childrenDates.value[key]}
-                            change={this._changeChildrenDate.bind(this, key)} />)
-                    }
+                    var value = this.props.fields.childrenDates.value[key] || this.props.fields.childrenDates.config.min;
                     return <DatePicker
                         {...this.props.fields.childrenDates}
                         key={key}
                         name={this.props.fields.childrenDates.name + key}
-                        value={this.props.fields.childrenDates.config.min}
+                        value={value}
                         change={this._changeChildrenDate.bind(this, key)} />
                 }.bind(this))}
                 </div>

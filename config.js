@@ -22,19 +22,20 @@ module.exports = {
                 return _.range(this.config.min, this.config.max);
             },
             "min": 1,
-            "max": 9
+            "max": 5
         }
     },
     "childrenCount": {
         "paramName": "adultsCount",
         "type": "range",
+        "defaultValue": 0,
         "config":
         {
             "options": function() {
                 return _.range(this.config.min, this.config.max);
             },
-            "min": 1,
-            "max": 9
+            "min": 0,
+            "max": 4
         }
     },
     "childrenDates": {
