@@ -6,6 +6,7 @@ var DatePicker = require('./datePicker.jsx');
 var Dropdown = require('./dropdown.jsx');
 var FlyoutMixin = require('./mixins/flyoutMixin');
 var moment = require('moment');
+var _ = require('lodash');
 
 var TravelPeriodFlyout = React.createClass({
     mixins: [OverlayMixin, FlyoutMixin],
@@ -19,14 +20,29 @@ var TravelPeriodFlyout = React.createClass({
         };
     },
 
+    _changeChildrenDate: function (key, val) {
+        this.props.change('childrenDates', function (value) {
+            value[key] = val;
+            return value;
+        });
+    },
+
+    _changeChildrenCount: function (count) {
+        this.props.change('childrenCount', count);
+        this.props.change('childrenDates', function (value) {
+            value = value.slice(0, count);
+            return value;
+        });
+    },
+
     render: function () {
         if (!this.props.fields) {
             return <div />;
         }
-        var duration =  this.props.fields.duration;
-        var departureDate =  this.props.fields.departureDate;
-        var returnDate =  this.props.fields.returnDate;
-        var title = moment(departureDate.value).format('YYYY-MM-DD') + ' to ' + moment(returnDate.value).format('YYYY-MM-DD');
+        var adultsCount =  this.props.fields.adultsCount.value;
+        var childrenCount =  this.props.fields.childrenCount.value;
+        var childrenDates =  this.props.fields.childrenDates;
+        var title = adultsCount + " adults, " + childrenCount + " children";
         return (
             <Button onClick={this._open} bsStyle="primary">{title}</Button>
         );
@@ -40,11 +56,29 @@ var TravelPeriodFlyout = React.createClass({
         }
 
         return (
-            <Modal title="Modal heading" onRequestHide={this._cancel}>
+            <Modal title="Travellers" onRequestHide={this._cancel}>
                 <div className="modal-body">
-                <Dropdown param="duration" {...this.props.fields.duration} />
-                <DatePicker param="departureDate" {...this.props.fields.departureDate} />
-                <DatePicker param="returnDate" {...this.props.fields.returnDate} />
+                <Dropdown param="adultsCount" {...this.props.fields.adultsCount} />
+                <Dropdown   param="childrenCount"
+                            {...this.props.fields.childrenCount}
+                            change={this._changeChildrenCount.bind(this)}
+                            />
+                {_.range(0, this.props.fields.childrenCount.value).map(function (key) {
+                    if (this.props.fields.childrenDates.value[key]) {
+                        return (<DatePicker
+                            {...this.props.fields.childrenDates}
+                            key={key}
+                            name={this.props.fields.childrenDates.name + key}
+                            value={this.props.fields.childrenDates.value[key]}
+                            change={this._changeChildrenDate.bind(this, key)} />)
+                    }
+                    return <DatePicker
+                        {...this.props.fields.childrenDates}
+                        key={key}
+                        name={this.props.fields.childrenDates.name + key}
+                        value={this.props.fields.childrenDates.config.min}
+                        change={this._changeChildrenDate.bind(this, key)} />
+                }.bind(this))}
                 </div>
                 <div className="modal-footer">
                     <Button onClick={this._cancel}>Close</Button>

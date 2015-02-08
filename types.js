@@ -89,7 +89,7 @@ Type.prototype.getDeps = function() {
 };
 
 Type.prototype.toString = function(value) {
-    return value;
+    return value + '';
 };
 
 Type.prototype.fromString = function(string) {

@@ -13,32 +13,41 @@ module.exports = {
     //    }
     //
     //},
-    //"adultsCount": {
-    //    "paramName": "adultsCount",
-    //    "type": "range",
-    //    "config":
-    //    {
-    //        "min": 1,
-    //        "max": 9
-    //    }
-    //},
-    //"childrenCount": {
-    //    "paramName": "adultsCount",
-    //    "type": "range",
-    //    "config":
-    //    {
-    //        "min": 1,
-    //        "max": 9
-    //    }
-    //},
-    //"childrenDates": {
-    //    "paramName": "children",
-    //    "type": "date",
-    //    "isArray": true,
-    //    "config": {
-    //        "min": "now - 14Y"
-    //    }
-    //},
+    "adultsCount": {
+        "paramName": "adultsCount",
+        "type": "range",
+        "config":
+        {
+            "options": function() {
+                return _.range(this.config.min, this.config.max);
+            },
+            "min": 1,
+            "max": 9
+        }
+    },
+    "childrenCount": {
+        "paramName": "adultsCount",
+        "type": "range",
+        "config":
+        {
+            "options": function() {
+                return _.range(this.config.min, this.config.max);
+            },
+            "min": 1,
+            "max": 9
+        }
+    },
+    "childrenDates": {
+        "paramName": "childrenDates",
+        "type": "date",
+        "defaultValue": [],
+        "isArray": true,
+        "config": {
+            "min": function () {
+                return  moment(Date.now()).subtract(14, 'years').toDate();
+            }
+        }
+    },
     "duration": {
         "paramName": "duration",
         "type": "option",

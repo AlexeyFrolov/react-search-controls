@@ -7,7 +7,7 @@ var DatePicker = React.createClass({
     },
 
     componentDidMount: function () {
-        var datePicker = $('#' + this.props.param).datepicker();
+        var datePicker = $('#' + this.props.name).datepicker();
         datePicker.on("changeDate", function (e) {
             var date = new Date(e.date.getTime() - e.date.getTimezoneOffset() * 60 * 1000);
             if (date.getTime() === this.props.value.getTime()) {
@@ -19,7 +19,7 @@ var DatePicker = React.createClass({
     },
 
     componentWillUnmount: function () {
-        var datePicker = $('#' + this.props.param);
+        var datePicker = $('#' + this.props.name);
         datePicker.datepicker().off("changeDate");
     },
 
@@ -28,7 +28,7 @@ var DatePicker = React.createClass({
     },
 
     _updateDatePicker: function() {
-        var datePicker = $('#' + this.props.param).datepicker({
+        var datePicker = $('#' + this.props.name).datepicker({
                 startDate: this.props.min
             }
         );
@@ -44,7 +44,7 @@ var DatePicker = React.createClass({
                     <div className='col-sm-6'>
                         <div className="form-group">
                             <div className='input-group date' >
-                                <input type='text' className="form-control" id={this.props.param} />
+                                <input type='text' className="form-control" id={this.props.name} />
                                 <span className="input-group-addon"><span className="glyphicon glyphicon-calendar"></span>
                                 </span>
                             </div>

@@ -63,6 +63,9 @@ var Parameters = function () {
                 }
             }
         });
+        params = _.pick(params, function (val) {
+            return !!val.trim();
+        });
         return qs.stringify(params);
     };
 

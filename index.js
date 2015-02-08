@@ -14,13 +14,13 @@ var fm = new FieldManager(config);
 
 var travelPeriodFlyout = React.render(React.createElement(TravelPeriodFlyout), document.getElementById('travelPeriodFlyout'));
 
-//var travellersFlyout = React.render(React.createElement(TravellersFlyout), document.getElementById('travellersFlyout'));
+var travellersFlyout = React.render(React.createElement(TravellersFlyout), document.getElementById('travellersFlyout'));
 
 var destinations = React.render(React.createElement(require('./controls/destinations.jsx'), {param: "destinations"}), document.getElementById('destinations'));
 var changedParams = React.render(React.createElement(require('./controls/changedParams.jsx')), document.getElementById('changedParams'));
 
 fm.bindControl(changedParams);
 fm.bindControl(travelPeriodFlyout);
-//fm.bindControl(travellersFlyout);
+fm.bindControl(travellersFlyout);
 fm.bindControl(destinations, "destinations");
 fm.bindControl(parameters);
