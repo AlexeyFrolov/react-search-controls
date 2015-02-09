@@ -88,7 +88,7 @@ var FieldManager = function (params) {
       if (control.isMultiControl()) {
         control.setProps({fields: this.getAllProps()});
       } else {
-        control.setProps(this.getParam(control.props.param).getProps()); // Uses react setProp.
+        control.setProps(this.getParam(control.props.name).getProps()); // Uses react setProp.
       }
     }, this);
   };
