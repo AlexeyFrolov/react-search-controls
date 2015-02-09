@@ -27,10 +27,19 @@ var TravelPeriodFlyout = React.createClass({
         var departureDate =  this.props.fields.departureDate;
         var returnDate =  this.props.fields.returnDate;
 
-        var errors = departureDate.errors.concat(returnDate.errors)
+        var errors = departureDate.errors.concat(returnDate.errors);
+        var errorsMessage;
+        if (errors.length) {
+            errorsMessage = 'Errors: ' + errors.length;
+        } else {
+            errorsMessage = '';
+        }
         var title = moment(departureDate.value).format('YYYY-MM-DD') + ' to ' + moment(returnDate.value).format('YYYY-MM-DD');
         return (
+            <div>
             <Button onClick={this._open} bsStyle="primary">{title}</Button>
+                <span className="error">{errorsMessage}</span>
+            </div>
         );
     },
 
@@ -46,7 +55,7 @@ var TravelPeriodFlyout = React.createClass({
         var returnDate =  this.props.fields.returnDate;
 
         var errors = departureDate.errors.concat(returnDate.errors).map(function(error, key) {
-            return <div key={key}>{error}</div>
+            return <div className="error" key={key}>{error}</div>
         });
 
         return (

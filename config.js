@@ -6,17 +6,18 @@ module.exports = {
         "paramName": "rating",
         "type": "range",
         "defaultValue": 3,
+        "validate" : inRangeValidator,
         "config": {
             "min": 1,
             "max": 5,
             "step:": 1
         }
-
     },
     "adultsCount": {
         "paramName": "adultsCount",
         "type": "range",
         "defaultValue": 1,
+        "validate" : inRangeValidator,
         "config":
         {
             "options": function() {
@@ -117,11 +118,23 @@ module.exports = {
     }
 };
 
+function inRangeValidator(value) {
+    var invalid = false;
+    if (value < this.getConfig().min) {
+        this.addError(this.name + ' should be greater than ' + this.getConfig().min);
+        invalid = true;
+    } if (value > this.getConfig().max) {
+        this.addError(this.name + ' should be smaller than ' + this.getConfig().max);
+        invalid = true;
+    }
+    return invalid;
+}
+
 function minDateValidator(value) {
     var min = this.getConfig().min;
     if (value.getTime() < min.getTime()) {
         this.addError(this.name + ' should be greater than ' + moment(min).format('YYYY-MM-DD'));
-        return false
+        return false;
     }
     return true;
 }

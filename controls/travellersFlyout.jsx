@@ -41,9 +41,21 @@ var TravelPeriodFlyout = React.createClass({
         }
         var adultsCount =  this.props.fields.adultsCount.value;
         var childrenCount =  this.props.fields.childrenCount.value;
+
+        var errors = this.props.fields.adultsCount.errors.concat(this.props.fields.childrenCount.errors);
+        var errorsMessage;
+        if (errors.length) {
+            errorsMessage = 'Errors: ' + errors.length;
+        } else {
+            errorsMessage = '';
+        }
+
         var title = adultsCount + " adults, " + childrenCount + " children";
         return (
+            <div>
             <Button onClick={this._open} bsStyle="primary">{title}</Button>
+                <span className="error">{errorsMessage}</span>
+            </div>
         );
     },
 
@@ -54,23 +66,37 @@ var TravelPeriodFlyout = React.createClass({
             return <span/>;
         }
 
+        var adultsCount =  this.props.fields.adultsCount;
+        var childrenCount =  this.props.fields.childrenCount;
+        var childrenDates = this.props.fields.childrenDates;
+
+        var errors = adultsCount.errors.concat(childrenCount.errors).concat(childrenDates.errors).map(function(error, key) {
+            return <div className="error" key={key}>{error}</div>
+        });
+
         return (
             <Modal title="Travellers" onRequestHide={this._cancel}>
                 <div className="modal-body">
-                <Dropdown param="adultsCount" {...this.props.fields.adultsCount} />
-                <Dropdown   param="childrenCount"
-                            {...this.props.fields.childrenCount}
-                            change={this._changeChildrenCount.bind(this)}
-                            />
-                {_.range(0, this.props.fields.childrenCount.value).map(function (key) {
-                    var value = this.props.fields.childrenDates.value[key] || this.props.fields.childrenDates.config.min;
+                    <label>Adults:
+                        <Dropdown param="adultsCount" {...adultsCount} />
+                    </label>
+                    <label>Children:
+                        <Dropdown   param="childrenCount"
+                                    {...childrenCount}
+                                    change={this._changeChildrenCount.bind(this)} />
+                    </label>
+                    <label> ChildrenDates:
+                {_.range(0, childrenCount.value).map(function (key) {
+                    var value = childrenDates.value[key] || childrenDates.config.min;
                     return <DatePicker
-                        {...this.props.fields.childrenDates}
+                        {...childrenDates}
                         key={key}
-                        name={this.props.fields.childrenDates.name + key}
+                        name={childrenDates.name + key}
                         value={value}
                         change={this._changeChildrenDate.bind(this, key)} />
                 }.bind(this))}
+                    </label>
+                {errors}
                 </div>
                 <div className="modal-footer">
                     <Button onClick={this._cancel}>Close</Button>

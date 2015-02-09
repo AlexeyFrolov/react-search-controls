@@ -57,7 +57,6 @@ Type.prototype.getProps = function() {
 };
 
 Type.prototype.setValue = function(value) {
-    this.value = value;
     if (this.beforeValidate) {
         if (!_.isArray(this.beforeValidate)) {
             beforeValidate = [this.beforeValidate];
@@ -73,6 +72,7 @@ Type.prototype.setValue = function(value) {
     /**
      * @TODO: deduplicate
      */
+    this.value = value;
     this.errors = [];
     if (this.validator) {
         if (!_.isArray(this.validator)) {
@@ -87,7 +87,6 @@ Type.prototype.setValue = function(value) {
         }, value, this);
     }
 
-    this.value = value;
 };
 
 Type.prototype._invokeWithDeps = function(func) {
