@@ -19,7 +19,8 @@ var Dropdown = React.createClass({
         }
         var options = this.props.config.options;
         return (
-            <div className="dropdown">
+            <div className="form-group">
+                <div className='input-group date' >
                 <ButtonToolbar>
                     <DropdownButton
                         bsSize="medium"
@@ -30,6 +31,7 @@ var Dropdown = React.createClass({
                     })}
                     </DropdownButton>
                 </ButtonToolbar>
+                </div>
             </div>
         );
     }

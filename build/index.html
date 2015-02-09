@@ -7,42 +7,50 @@
     <script type="text/javascript" src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
     <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/blueprint.css" />
     <link rel="stylesheet" href="/bower_components/bootstrap-datepicker/css/datepicker3.css" />
 
     <script defer type="text/javascript" src="/bundle.js"> </script>
     <title>Widgets Demo</title>
 </head>
 <body>
-    <div id="changedParams"></div>
+<div class="container container-page">
+    <div class="row">
 
-    <div id="rating">
+        <div class="panel panel-default">
+            <div class="panel-heading"><div class="panel-title" id="forms">Controls</div></div>
+            <div class="panel-body">
+                <div class="col-md-4">
 
+                    <br />
+                    <div class="row">
+                            <div id="travellersFlyout"></div>
+                    </div>
+                    <br />
+                    <div class="row">
+                            <div id="travelPeriodFlyout"></div>
+                    </div>
+                    <br />
+                    <div class="row">
+                            <div id="rating"> </div>
+                    </div>
+                    <div class="row">
+                        <div id="destinations"></div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="row">
+                        <span>Changed params</span>
+                    </div>
+                    <div class="row">
+                        <div id="changedParams"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div id="travellersFlyout">
-
-    </div>
-
-    <div id="travelPeriodFlyout">
-
-    </div>
-
-    <div id="duration">
-
-    </div>
-
-    <div id="departureWidget">
-
-    </div>
-
-    <div id="returnWidget">
-
-    </div>
-
-    <div id="destinations">
-
-    </div>
-
+</div>
 
 </body>
 </html>

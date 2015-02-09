@@ -19,7 +19,7 @@ var Stars = React.createClass({
     //},
 
     _handleChange: function(value) {
-        this.props.change(value);
+        this.props.change(parseInt(value));
     },
 
     render: function() {

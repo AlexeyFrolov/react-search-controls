@@ -17,14 +17,19 @@ var ChangedParams = React.createClass({
             return <div />;
         }
         var changedFields = _.pick(this.props.fields, function(field) {
-            return field.defaultValue && !_.isEqual(field.defaultValue, field.value);
+            return !_.isUndefined(field.defaultValue) && !_.isEqual(field.defaultValue, field.value);
         });
         return (
-            <div>
+        <div className="tagbar">
             {_.map(_.toArray(changedFields), function (field) {
-                return <span key={field.name} onClick={this._restoreDefault.bind(this, field.name)} className="glyphicon glyphicon-remove" aria-hidden="true">{field.name} </span>;
+            return  (
+                <div key={field.name} href="#" className="tagbar--item">
+                  {field.name}
+                <a onClick={this._restoreDefault.bind(this, field.name)} className="icon icon-clear"></a>
+                </div>
+            );
             }, this)}
-            </div>);
+        </div>)
     }
 });
 

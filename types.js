@@ -115,6 +115,9 @@ Type.prototype.toString = function(value) {
 };
 
 Type.prototype.fromString = function(string) {
+    if (_.isNumber(this.defaultValue)) {
+        return parseInt(string);
+    }
     return string;
 };
 

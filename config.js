@@ -5,7 +5,7 @@ module.exports = {
     "rating": {
         "paramName": "rating",
         "type": "range",
-        "defaultValue": "3",
+        "defaultValue": 3,
         "config": {
             "min": 1,
             "max": 5,
@@ -16,6 +16,7 @@ module.exports = {
     "adultsCount": {
         "paramName": "adultsCount",
         "type": "range",
+        "defaultValue": 1,
         "config":
         {
             "options": function() {
@@ -26,7 +27,7 @@ module.exports = {
         }
     },
     "childrenCount": {
-        "paramName": "adultsCount",
+        "paramName": "childrenCount",
         "type": "range",
         "defaultValue": 0,
         "config":

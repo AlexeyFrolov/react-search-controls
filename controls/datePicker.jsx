@@ -41,17 +41,11 @@ var DatePicker = React.createClass({
 
     render: function() {
         return (
-            <div className="container">
-                <div className="row">
-                    <div className='col-sm-6'>
-                        <div className="form-group">
-                            <div className='input-group date' >
-                                <input type='text' className="form-control" id={this.props.name} />
-                                <span className="input-group-addon"><span className="glyphicon glyphicon-calendar"></span>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+            <div className="form-group">
+                <div className='input-group date' >
+                    <input type='text' className="form-control" id={this.props.name} />
+                    <span className="input-group-addon"><span className="glyphicon glyphicon-calendar"></span>
+                    </span>
                 </div>
             </div>
         );
