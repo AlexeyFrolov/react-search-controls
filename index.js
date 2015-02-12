@@ -1,8 +1,8 @@
 //require('node-jsx').install({extension: '.jsx'});
 var React = require('react');
 var config = require('./config');
-var FieldManager = require('./fieldManager');
-var Parameters = require('./parameters');
+var FieldManager = require('./core/fieldManager');
+var Parameters = require('./controls/parameters');
 var TravelPeriodFlyout = require('./controls/travelPeriodFlyout.jsx');
 var TravellersFlyout = require('./controls/travellersFlyout.jsx');
 
@@ -20,3 +20,5 @@ fm.bindControl(travellersFlyout);
 fm.bindControl(destinations, "destinations");
 fm.bindControl(rating, "rating");
 fm.bindControl(parameters);
+
+window.fm = fm;

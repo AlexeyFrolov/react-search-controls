@@ -82,9 +82,9 @@ module.exports = {
         "paramName": "returnDate",
         "type": "date",
         "deps": ["departureDate", "duration"],
-        //"beforeValidate": function (value) {
-        //    return value.getTime() < this.getConfig().min.getTime() ? this.getConfig().min : value;
-        //},
+        "beforeValidate": function (value) {
+            return value.getTime() < this.getConfig().min.getTime() ? this.getConfig().min : value;
+        },
         "validate": minDateValidator,
         "config": {
             "min": function (departureDate, duration) {

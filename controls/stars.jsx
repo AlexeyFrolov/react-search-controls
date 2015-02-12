@@ -31,21 +31,21 @@ var Stars = React.createClass({
         var value = this.props.value;
         return (
             <div className="container">
-                <div className="row">
+                <ul className="rating rating-widget">
                 {_.range(1, max + 1).map(function(key) {
-                    var className = 'glyphicon';
+                    var className = 'rating--item icon icon-glass';
                     if (key > value) {
-                        className += ' glyphicon-star-empty';
+                        className += '';
                     } else {
-                        className += ' glyphicon-star';
+                        className += ' is-active';
                     }
-                    return (<span
+                    return (<li
                         key={key}
                         onClick={this._handleChange.bind(this, key)}
                         style={{display: 'inline-block', fontSize: '2em'}}
                         className={className}/>)
                 }.bind(this))}
-                </div>
+                </ul>
             </div>
         );
     }
