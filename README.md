@@ -1,3 +1,6 @@
+## Description
+Small DSL to handle business logic and validation for 'widgets'.
+
 ## Installation:
 ```
 npm install browserify -g
