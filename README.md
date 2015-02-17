@@ -6,7 +6,10 @@ npm install static-server -g (or you can use any static server to serve "build" 
 npm install
 ```
 
-##Development 
+## Development 
 ```
+cd ./build && static-server
 watchify --debug index.js -o build/bundle.js
 ```
+## TODO
+Setup webpack, add frontend staff to npm.
