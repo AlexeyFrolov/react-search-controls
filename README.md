@@ -1,7 +1,7 @@
 ## Description
 Small DSL to handle business logic and validation for 'widgets'.
 
-## Installation:
+## Installation
 ```
 npm install browserify -g
 npm install watchify -g
