@@ -15,4 +15,4 @@ cd ./build && static-server
 watchify --debug index.js -o build/bundle.js
 ```
 ## TODO
-Setup webpack, add frontend staff to npm.
+Setup webpack, add frontend stuff to npm.
